@@ -8,16 +8,33 @@ const {YOUR_API_KEY} = process.env;
 //Debe mostrar nombre, imagen, descripcion,fecha de lanzamiento,rating,plataformas, generos
 router.get('/:id' , async (req,res) => {
     const {id} = req.params;
+    if(!id){
+        return res.status(404).send("Error from id undefined");
+    }
+    var detailsVideogame;
     try{
-        const detailsVideogame = await axios.get(`https://api.rawg.io/api/games/${id}?key=${YOUR_API_KEY}`);
-        nuevaListaDetalle = {
-            name: detailsVideogame.data.name,
-            description: detailsVideogame.data.description,
-            releaseDate: detailsVideogame.data.released,
-            rating: detailsVideogame.data.rating,
-            platforms: detailsVideogame.data.platforms.map(e => e.platform.name).join(','),
-            image: detailsVideogame.data.background_image,
-            genres: detailsVideogame.data.genres.map(e => e.name).join(',')
+        if(id.length < 10){
+            detailsVideogame = await axios.get(`https://api.rawg.io/api/games/${id}?key=${YOUR_API_KEY}`);
+            nuevaListaDetalle = {
+                name: detailsVideogame.data.name,
+                description: detailsVideogame.data.description,
+                releaseDate: detailsVideogame.data.released,
+                rating: detailsVideogame.data.rating,
+                platforms: detailsVideogame.data.platforms.map(e => e.platform.name).join(','),
+                image: detailsVideogame.data.background_image,
+                genres: detailsVideogame.data.genres.map(e => e.name).join(',')
+            };                        
+        }else{
+            detailsVideogame = await Videogame.findByPk(id,{include: Genre});
+            nuevaListaDetalle = {
+                name: detailsVideogame.name,
+                description: detailsVideogame.description,
+                releaseDate: detailsVideogame.releaseDate,
+                rating: detailsVideogame.rating,
+                platforms: detailsVideogame.platforms,
+                image: detailsVideogame.image,
+                genres: detailsVideogame.genres.map(g => g.name).join(',')
+            };
         }
         return res.json(nuevaListaDetalle);
     }catch(e){
@@ -33,7 +50,7 @@ router.get('/:id' , async (req,res) => {
 router.post('' , async (req,res) => {
     var {name, description, releaseDate, rating, platforms, image, genres} = req.body;
     platforms = platforms.join(',');
-    genres=genres.map(e =>{return {name: e}});
+    genres=genres.map(e =>{return {name: e.name}});
     try{
         var createdVideogame = await Videogame.create({name, description, releaseDate, rating, platforms,image});
         var createdGenre = await Genre.bulkCreate(genres);

@@ -42,15 +42,20 @@ router.get('' , async (req,res) => {
             var allVideogame = dbVideogame.concat(apiVideogame)
             return res.json(allVideogame);
         }catch(e){
-            return res.status(404).send("No se encuentra ningún videojuego con el nombre buscado.");
+            return res.status(404).send({message: "Error"});
         }
     }else{
         try{
             //Debo revisar si esta parte de 15 resultados tiene que ser hecho en el front
-            const searchVideogame = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&search=${name}&page_size=15`);
-            return res.json(searchVideogame.data.results);
+            const searchVideogameDB= await Videogame.findAll({where:{name: name}});
+            const searchVideogameAPI = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&search=${name}&page_size=15`);
+            var searchVideogame = searchVideogameDB.concat(searchVideogameAPI.data.results);
+            if(searchVideogame.length===0){
+                return res.status(404).send("No se encuentra ningún videojuego con el nombre buscado.");
+            }            
+            return res.json(searchVideogame);
         }catch(e){
-            return res.status(404).send(e);
+            return res.send(e);
         }
     }    
 });

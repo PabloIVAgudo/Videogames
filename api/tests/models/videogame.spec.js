@@ -15,7 +15,27 @@ describe('Videogame model', () => {
           .catch(() => done());
       });
       it('should work when its a valid name', () => {
-        Recipe.create({ name: 'Super Mario Bros' });
+        Videogame.create({ name: 'Super Mario Bros' });
+      });
+    });
+    describe('description', () => {
+      it('should throw an error if description is null', (done) => {
+        Videogame.create({})
+          .then(() => done(new Error('It requires a valid description')))
+          .catch(() => done());
+      });
+      it('should work when its a valid description', () => {
+        Videogame.create({ description: 'The best game of all times' });
+      });
+    });
+    describe('platforms', () => {
+      it('should throw an error if platforms is null', (done) => {
+        Videogame.create({})
+          .then(() => done(new Error('It requires a valid platforms')))
+          .catch(() => done());
+      });
+      it('should work when its a valid platforms', () => {
+        Videogame.create({ platforms: 'SuperNintendo, Sega' });
       });
     });
   });
