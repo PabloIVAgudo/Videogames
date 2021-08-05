@@ -11,20 +11,20 @@ router.get('' , async (req,res) => {
     const {name} = req.query;    
     if(!name){
         try{
-            const apiVideogameGet1 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=1`);
-            const apiVideogameGet2 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=2`);
-            const apiVideogameGet3 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=3`);
-            const apiVideogameGet4 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=4`);
-            const apiVideogameGet5 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=5`);
-            const dbVideogameGet = await Videogame.findAll({include: Genre});
+            const apiVideogameGet1 =  axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=1`);
+            const apiVideogameGet2 = axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=2`);
+            const apiVideogameGet3 = axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=3`);
+            const apiVideogameGet4 = axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=4`);
+            const apiVideogameGet5 = axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=5`);
+            const dbVideogameGet = Videogame.findAll({include: Genre});
             const bothVideogameGet = await Promise.all([apiVideogameGet1,apiVideogameGet2,apiVideogameGet3,apiVideogameGet4,apiVideogameGet5,dbVideogameGet]);
             //Armo un array de 5 array con los 20 resultados por pagina y con lo que quiero mostrar 
             var apiVideogame=[];
             for(var i=0;i<5;i++){
                 apiVideogame.push(bothVideogameGet[i].data.results.map(e =>{
                         return {
-                            image: e.background_image,
-                            name: e.name,
+                            image: e.background_image,   
+                            name: e.name,                                                     
                             genres: e.genres.map(g => g.name).join(',')
                         };
                     })
@@ -46,10 +46,35 @@ router.get('' , async (req,res) => {
         }
     }else{
         try{
-            //Debo revisar si esta parte de 15 resultados tiene que ser hecho en el front
-            const searchVideogameDB= await Videogame.findAll({where:{name: name}});
-            const searchVideogameAPI = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&search=${name}`);
-            var searchVideogame = searchVideogameDB.concat(searchVideogameAPI.data.results);
+            //Hacer el paginado de 15 resultados en el front
+            //Traigo y normalizo lo que encuentro en la DB con ese nombre
+            var searchVideogameDB = await Videogame.findAll({where: {name: name} , include: Genre});
+            searchVideogameDB =  searchVideogameDB.map(e =>{            
+                return {
+                    image: e.image,
+                    name: e.name,
+                    genres: e.genres.map(g => g.name).join(',')
+                }
+            });
+            //Busco y normalizo lo que encuentre en la API con ese nombre         
+            var searchVideogameAPI = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&search=${name}`);
+            searchVideogameAPI =  searchVideogameAPI.data.results.map(e =>{            
+                return {
+                    image: e.background_image,
+                    name: e.name,                                                
+                    genres: e.genres.map(g => g.name).join(',')
+                }
+            });
+            var searchVideogame = [];
+            //Si no existe videogames en DB con ese nombre, no le sumo el array vacío
+            if(searchVideogameDB.length===0){
+                searchVideogame = searchVideogameAPI;                
+            }
+            //Si existe el videogame en DB, le concateno lo dela API
+            if(searchVideogameDB.length>0){
+                searchVideogame = searchVideogameDB.concat(searchVideogameAPI);
+            }
+            //Si no existen juegos, tiro el mensaje de error
             if(searchVideogame.length===0){
                 return res.status(404).send("No se encuentra ningún videojuego con el nombre buscado.");
             }            

@@ -51,11 +51,10 @@ router.get('/:id' , async (req,res) => {
 router.post('' , async (req,res) => {
     var {name, description, releaseDate, rating, platforms, image, genres} = req.body;
     platforms = platforms.join(',');
-    //genres=genres.map(e =>{return {id: e.id , name: e.name}});
+    // Con solo enviarles el genres con los id de los genres que quiero agregar, sería todo.
     try{
-        var createdVideogame = await Videogame.create({name, description, releaseDate, rating, platforms,image});
-        //var createdGenre = await Genre.bulkCreate(genres);
-        var resultVideogame= await createdVideogame.addGenres(genres);
+        var createdVideogame = await Videogame.create({name, description, releaseDate, rating, platforms,image});              
+        var resultVideogame= await createdVideogame.addGenres(genres);        
         return res.json(resultVideogame);
     }catch(e){
         return res.status(404).send(e);
