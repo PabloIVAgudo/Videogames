@@ -46,15 +46,16 @@ router.get('/:id' , async (req,res) => {
 //Se debe poder seleccionar/agregar varios generos,plataformas
 //en este caso debo agregar platforms (posible array) como string (Lo convierto en 1 string en el front antes de pasarlo o acá)
 //para el caso de Genre debo revisar que me tiene que venir un array de objetos: genres=[{name: genero},{name: genero}]
-//si genres me viene como array de strings, lo transformo en lo que necesito (Esto es lo que aplico al final)
+//si genres me viene como array de strings, lo transformo en lo que necesito para que me genre el modelo gnere
+//si genres me viene como array de con name e id definidos, entonces solo debo pasarlo directo a bulkCreate(Esto debo hacer finalmente)
 router.post('' , async (req,res) => {
     var {name, description, releaseDate, rating, platforms, image, genres} = req.body;
     platforms = platforms.join(',');
-    genres=genres.map(e =>{return {name: e.name}});
+    //genres=genres.map(e =>{return {id: e.id , name: e.name}});
     try{
         var createdVideogame = await Videogame.create({name, description, releaseDate, rating, platforms,image});
-        var createdGenre = await Genre.bulkCreate(genres);
-        var resultVideogame= await createdVideogame.addGenres(createdGenre);
+        //var createdGenre = await Genre.bulkCreate(genres);
+        var resultVideogame= await createdVideogame.addGenres(genres);
         return res.json(resultVideogame);
     }catch(e){
         return res.status(404).send(e);

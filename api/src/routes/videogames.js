@@ -32,7 +32,7 @@ router.get('' , async (req,res) => {
             }
             apiVideogame= apiVideogame.reduce((a,b) => a.concat(b)); //Transformo al array de 5 array de 20 objetos c/u en un solo array de 100 objetos
             //Modifico lo que viene por DB para mostrar lo que quiero
-            var dbVideogame = bothVideogameGet[5].map(e =>{
+            var dbVideogame = bothVideogameGet[5].map(e =>{            
                 return {
                     image: e.image,
                     name: e.name,
@@ -40,7 +40,7 @@ router.get('' , async (req,res) => {
                 }
             });
             var allVideogame = dbVideogame.concat(apiVideogame)
-            return res.json(allVideogame);
+            return res.json(allVideogame);          
         }catch(e){
             return res.status(404).send({message: "Error"});
         }
@@ -48,7 +48,7 @@ router.get('' , async (req,res) => {
         try{
             //Debo revisar si esta parte de 15 resultados tiene que ser hecho en el front
             const searchVideogameDB= await Videogame.findAll({where:{name: name}});
-            const searchVideogameAPI = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&search=${name}&page_size=15`);
+            const searchVideogameAPI = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&search=${name}`);
             var searchVideogame = searchVideogameDB.concat(searchVideogameAPI.data.results);
             if(searchVideogame.length===0){
                 return res.status(404).send("No se encuentra ningún videojuego con el nombre buscado.");
