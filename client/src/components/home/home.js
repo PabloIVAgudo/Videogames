@@ -28,12 +28,9 @@ function Home() {
 
   return (
     <div>      
-      <NavigationBar /> 
-      <p>Estoy en Home</p>
-      <ul>
-        <Videogames videogamesMostrados={videogamesActuales} loading={loading}/>
-        <Paginado videogamesPorPagina={videogamesPorPagina} videogamesTotales={videogames.length} paginado={paginado}/>
-      </ul>      
+      <NavigationBar />
+      <Videogames videogamesMostrados={videogamesActuales} loading={loading}/>
+      <Paginado videogamesPorPagina={videogamesPorPagina} videogamesTotales={videogames.length} paginado={paginado}/>
     </div>           
   );
 }

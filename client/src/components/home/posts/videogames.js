@@ -5,15 +5,15 @@ function Videogames ({videogamesMostrados, loading}) {
         return <h2>Loading...</h2>
     }
     return (
-        <ul>
+        <div className="tablaVideogames">
             {videogamesMostrados.map(e => (
-                <li key={e.id}>
-                    <img src={e.image}/>
+                <span className="unVideogame" key={e.id}>
+                    <img className="tamañoImagen" src={e.image} alt="Image not found"/>
                     <p>{e.name}</p>
                     <p>{e.genres}</p>
-                </li>
+                </span>
             ))}
-        </ul>
+        </div>
     )
 }
 export default Videogames;

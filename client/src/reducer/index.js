@@ -1,7 +1,8 @@
-import {GET_VIDEOGAMES} from '../actions/constants';
+import {GET_VIDEOGAMES, GET_VIDEOGAME_BY_NAME} from '../actions/constants';
 
 var initialState = {
-    videogames: []
+    videogames: [],
+    videogameByName: []
 }
 
 function reducer(state = initialState, action) {
@@ -10,6 +11,11 @@ function reducer(state = initialState, action) {
             return {
             ...state,
             videogames: action.payload
+        }
+        case GET_VIDEOGAME_BY_NAME:
+            return {
+            ...state,
+            videogameByName: action.payload
         }
         default: return state;
     }
