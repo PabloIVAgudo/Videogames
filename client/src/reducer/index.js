@@ -11,7 +11,7 @@ function reducer(state = initialState, action) {
             ...state,
             videogames: action.payload
         }
-        default: return state
+        default: return state;
     }
 }
 

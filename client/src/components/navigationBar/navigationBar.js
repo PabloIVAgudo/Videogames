@@ -6,10 +6,7 @@ function NavigationBar() {
         <div>
             <span className="navigationLink">
                 <NavLink to="/home" >Home</NavLink>
-            </span>
-            <span className="navigationLink">
-                <NavLink to="/videogameDetail" >Detalle de videojuego</NavLink>
-            </span>
+            </span>            
             <span className="navigationLink">
                 <NavLink to="/createVideogame" >Crear Videojuego</NavLink>
             </span>          
