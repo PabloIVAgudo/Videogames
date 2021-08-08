@@ -46,7 +46,7 @@ router.get('' , async (req,res) => {
         }
     }else{
         try{
-            //Hacer el paginado de 15 resultados en el front
+            //Hacer el paginado de 15 resultados
             //Traigo y normalizo lo que encuentro en la DB con ese nombre
             var searchVideogameDB = await Videogame.findAll({where: {name: name} , include: Genre});
             searchVideogameDB =  searchVideogameDB.map(e =>{            
@@ -68,11 +68,11 @@ router.get('' , async (req,res) => {
             var searchVideogame = [];
             //Si no existe videogames en DB con ese nombre, no le sumo el array vacío
             if(searchVideogameDB.length===0){
-                searchVideogame = searchVideogameAPI;                
+                searchVideogame = searchVideogameAPI.slice(0,15);                
             }
             //Si existe el videogame en DB, le concateno lo dela API
             if(searchVideogameDB.length>0){
-                searchVideogame = searchVideogameDB.concat(searchVideogameAPI);
+                searchVideogame = searchVideogameDB.concat(searchVideogameAPI).slice(0,15);
             }
             //Si no existen juegos con ese nombre, tiro el mensaje de error
             if(searchVideogame.length===0){

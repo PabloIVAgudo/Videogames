@@ -47,7 +47,8 @@ router.get('/:id' , async (req,res) => {
 //en este caso debo agregar platforms (posible array) como string (¿Lo convierto en 1 string en el front antes de pasarlo o acá?)
 //si genres me viene como array de id, entonces solo debo pasarlo directo a bulkCreate(Esto es lo que hago al fin de cuentas)
 router.post('' , async (req,res) => {
-    var {name, description, releaseDate, rating, platforms, image, genres} = req.body;
+    var {name, description, releaseDate, rating, platforms, genres} = req.body;
+    var image = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gnome-joystick.svg/1024px-Gnome-joystick.svg.png";
     platforms = platforms.join(',');
     // Con solo enviarles el genres con los id de los genres que quiero agregar, sería todo.
     try{
