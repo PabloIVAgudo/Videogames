@@ -10,7 +10,7 @@ function SearchBar (){
 
     useEffect(() => {
         dispatch(getVideogameByName(name))
-    },[dispatch]);
+    },[]);
 
     function handleChange(event) {
         setName(event.target.value);

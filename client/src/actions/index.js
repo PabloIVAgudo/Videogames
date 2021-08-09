@@ -5,22 +5,16 @@ export function getVideogames() {
     return function(dispatch) {
         return axios.get("http://localhost:3001/videogames")
         .then((videogames) => {
-            dispatch({
-                type: GET_VIDEOGAMES,
-                payload: videogames.data
-            })
+            dispatch({type: GET_VIDEOGAMES, payload: videogames.data})
         })
     }
 }
 
 export function getVideogameByName(name) {
     return function(dispatch) {
-        return axios.get(`http://localhost:3001/videogames?name=${name}`)
+        return axios.get("http://localhost:3001/videogames?name=" + name)
         .then((videogame) => {
-            dispatch({
-                type: GET_VIDEOGAME_BY_NAME,
-                payload: videogame.data
-            })
+            dispatch({type: GET_VIDEOGAME_BY_NAME, payload: videogame.data})
         })
     }
 }
