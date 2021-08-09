@@ -6,7 +6,6 @@ require('dotenv').config();
 const {YOUR_API_KEY} = process.env;
 
 //Debe devolverme solo imagen, nombre y genero cuando no tiene query, de los primeros 100
-//Con query debe mostrar los primeros 15 resultados con ese name sino mensaje de error
 router.get('' , async (req,res) => {
     const {name} = req.query;    
     if(!name){
@@ -25,7 +24,8 @@ router.get('' , async (req,res) => {
                         return {
                             image: e.background_image,   
                             name: e.name,                                                     
-                            genres: e.genres.map(g => g.name).join(',')
+                            genres: e.genres.map(g => {return {name: g.name, id: g.id}}),
+                            id: e.id
                         };
                     })
                 )
@@ -36,7 +36,8 @@ router.get('' , async (req,res) => {
                 return {
                     image: e.image,
                     name: e.name,
-                    genres: e.genres.map(g => g.name).join(',')
+                    genres: e.genres.map(g => {return {name: g.name, id: g.id}}),
+                    id: e.id
                 }
             });
             var allVideogame = dbVideogame.concat(apiVideogame)
@@ -53,7 +54,8 @@ router.get('' , async (req,res) => {
                 return {
                     image: e.image,
                     name: e.name,
-                    genres: e.genres.map(g => g.name).join(',')
+                    genres: e.genres.map(g => {return {name: g.name, id: g.id}}),
+                    id: e.id
                 }
             });
             //Busco y normalizo lo que encuentre en la API con ese nombre         
@@ -62,7 +64,8 @@ router.get('' , async (req,res) => {
                 return {
                     image: e.background_image,
                     name: e.name,                                                
-                    genres: e.genres.map(g => g.name).join(',')
+                    genres: e.genres.map(g => {return {name: g.name, id: g.id}}),
+                    id: e.id
                 }
             });
             var searchVideogame = [];
