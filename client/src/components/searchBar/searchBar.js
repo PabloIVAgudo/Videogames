@@ -3,36 +3,33 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useState} from 'react';
 import {getVideogameByName} from '../../actions/index';
 
-function SearchBar ({busqueda}){
+function SearchBar (){
     const [name, setName] = useState("");
     const dispatch = useDispatch();
-    const videogameByName = useSelector(e => e.videogameByName);
    
     function handleChangeSearch(event) {        
-        setName(event.target.value);         
+        setName(event.target.value);       
     }
     
     function handleSearch(event) {        
         event.preventDefault();
-        dispatch(getVideogameByName(name));                     
+        dispatch(getVideogameByName(name));                   
         setName("");
     }
 
     return (
         <div>
             <form onSubmit={handleSearch}>
-            <div>
                 <label htmlFor="searchByName"/>
                 <input
                     type="text"
                     id="searchByName"
-                    autoComplete="off"
+                    autoComplete= "off"
                     value={name}
-                    placeholder="Ingrese nombre..."
-                    onChange={handleChangeSearch}
+                    placeholder="Enter name..."
+                    onChange={(e) => handleChangeSearch(e)}
                 />                
-                <button onClick={() => busqueda(videogameByName)} type="submit">BUSCAR</button>                
-            </div>            
+                <button type="submit">SEARCH</button>         
             </form>       
         </div>
     )

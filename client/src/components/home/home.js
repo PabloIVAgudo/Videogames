@@ -104,11 +104,6 @@ function Home() {
     setOrden([...aux]);
   } 
   
-  //Para la busqueda
-  function busqueda (valorBusqueda){
-    setOrden(valorBusqueda);
-  }
-
   const indiceUltimoDePagina = paginaActual * videogamesPorPagina;
   const indicePrimeroDePagina = indiceUltimoDePagina - videogamesPorPagina;
   const videogamesActuales = orden.slice(indicePrimeroDePagina, indiceUltimoDePagina);
@@ -126,10 +121,11 @@ function Home() {
       <button onClick={ratingDes}>Rating Descendente</button>
       <button onClick={creado}>Creado</button>
       <button onClick={noCreado}>No creado</button>
+      <button onClick={e => dispatch(getVideogames())}>Volver a cargar</button>
       <FiltroGenre setGenre={setGenre}/>
-      <SearchBar busqueda={busqueda}/>
+      <SearchBar />
       <Videogames videogamesMostrados={videogamesActuales} loading={loading}/>
-      <Paginado videogamesPorPagina={videogamesPorPagina} videogamesTotales={videogames.length} paginado={paginado}/>
+      <Paginado videogamesPorPagina={videogamesPorPagina} videogamesTotales={orden.length} paginado={paginado}/>
     </div>           
   );
 }

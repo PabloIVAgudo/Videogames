@@ -48,13 +48,13 @@ function CreateVideogame(){
     return (
         <div>
             <NavigationBar/>
-            <p>Estoy dentro de la creación de Videogames</p>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="">name</label>
                     <input
                     type="text"
                     name="name"
+                    autoComplete= "off"
                     value={videogame.name}
                     onChange={inputChange}
                     />
@@ -64,6 +64,7 @@ function CreateVideogame(){
                     <input
                     type="text"
                     name="description"
+                    autoComplete= "off"
                     value={videogame.description}
                     onChange={inputChange}
                     />
@@ -73,6 +74,7 @@ function CreateVideogame(){
                     <input
                     type="text"
                     name="releaseDate"
+                    autoComplete= "off"
                     value={videogame.releaseDate}
                     onChange={inputChange}
                     />
@@ -82,6 +84,7 @@ function CreateVideogame(){
                     <input
                     type="number"
                     name="rating"
+                    autoComplete= "off"
                     value={videogame.rating}
                     onChange={inputChange}
                     />

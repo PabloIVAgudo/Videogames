@@ -2,7 +2,6 @@
     padding-top: 20px;
     display: grid;
     grid-template-columns: 33% 34% 33%;
-    grid-template-rows: 33% 34% 33%;
 }
 
 .unVideogame{

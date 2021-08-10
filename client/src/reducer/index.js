@@ -2,7 +2,6 @@ import {GET_VIDEOGAMES, GET_VIDEOGAME_BY_NAME, GET_GENRES} from '../actions/cons
 
 var initialState = {
     videogames: [],
-    videogameByName: [],
     genres: []
 }
 
@@ -16,7 +15,7 @@ function reducer(state = initialState, action) {
         case GET_VIDEOGAME_BY_NAME:
             return {
             ...state,
-            videogameByName: action.payload
+            videogames: action.payload
         }
         case GET_GENRES:
             return {
