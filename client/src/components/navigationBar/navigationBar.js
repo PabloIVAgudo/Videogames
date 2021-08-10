@@ -9,11 +9,11 @@ function NavigationBar() {
                 <NavLink to="/home" >Home</NavLink>
             </span>            
             <span className="navigationLink">
-                <NavLink to="/createVideogame" >Crear Videojuego</NavLink>
+                <NavLink to="/createVideogame" >Create videogame</NavLink>
             </span>
             <span>
-                <SearchBar />
-            </span>          
+                <NavLink to="/searchByName"> Barra de busqueda </NavLink>
+            </span>                    
         </div>
     )
 }

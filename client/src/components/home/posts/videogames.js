@@ -1,4 +1,5 @@
-import './videogames.css'
+import './videogames.css';
+import {Link} from 'react-router-dom';
 
 function Videogames ({videogamesMostrados, loading}) {
     if(loading){
@@ -10,7 +11,10 @@ function Videogames ({videogamesMostrados, loading}) {
                 <span className="unVideogame" key={e.id}>
                     <img className="tamañoImagen" src={e.image} alt="Image not found"/>
                     <p>{e.name}</p>
-                    <p>{e.genres}</p>
+                    <p>{e.genres.map(g => g.name).join(',')}</p>
+                    <Link to={`/videogameDetail/${e?.id}`}>
+                        <button>Detalles</button>
+                    </Link>
                 </span>
             ))}
         </div>

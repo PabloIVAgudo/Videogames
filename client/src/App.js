@@ -4,6 +4,7 @@ import Home from './components/home/home';
 import PageInicio from './components/pageInicio/pageInicio';
 import VideogameDetail from './components/videogameDetail/videogameDetail';
 import CreateVideogame from './components/createVideogame/createVideogame';
+import SearchBar from './components/searchBar/searchBar';
 
 function App() {
 
@@ -21,6 +22,9 @@ function App() {
         </Route>
         <Route path="/createVideogame">
           <CreateVideogame />
+        </Route>
+        <Route to="/searchByName">
+          <SearchBar />
         </Route>
       </Switch>      
     </BrowserRouter>
