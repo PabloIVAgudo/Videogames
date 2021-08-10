@@ -2,9 +2,11 @@ import './home.css';
 import NavigationBar from '../navigationBar/navigationBar';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
-import {getVideogames, getVideogameByName} from '../../actions/index';
+import {getVideogames} from '../../actions/index';
 import Videogames from './posts/videogames';
 import Paginado from './Paginado/paginadoHome';
+import SearchBar from '../searchBar/searchBar';
+import FiltroGenre from './filtroGenre/filtroGenre';
 
 function Home() {
   //Para el paginado 
@@ -19,10 +21,11 @@ function Home() {
   useEffect(() => {    
     dispatch(getVideogames()); 
     setLoading(false);      
-  }, [])
+  }, [])  
 
   //Para el orden 
   const [orden, setOrden] = useState([]);
+
   useEffect(() =>{
     setLoading(true);
     setOrden(videogames);
@@ -77,6 +80,35 @@ function Home() {
     setOrden([...aux]);
   }
 
+  function creado (){
+    var aux = [...videogames];
+    aux = aux.filter(e => e.id.toString().length > 10);
+    setOrden([...aux]);
+  }
+
+  function noCreado (){
+    var aux = [...videogames];
+    aux = aux.filter(e => e.id.toString().length < 10);
+    setOrden([...aux]);
+  }
+
+  function setGenre (genreId) {
+    var aux = [...videogames];
+    aux = aux.filter(e => {
+      if(e.genres.map(s => s.id).includes(genreId)){
+        return true;
+      } else {
+        return false;
+      }
+    });      
+    setOrden([...aux]);
+  } 
+  
+  //Para la busqueda
+  function busqueda (valorBusqueda){
+    setOrden(valorBusqueda);
+  }
+
   const indiceUltimoDePagina = paginaActual * videogamesPorPagina;
   const indicePrimeroDePagina = indiceUltimoDePagina - videogamesPorPagina;
   const videogamesActuales = orden.slice(indicePrimeroDePagina, indiceUltimoDePagina);
@@ -91,7 +123,11 @@ function Home() {
       <button onClick={alfAsc}>Alfabetico Ascendente</button>
       <button onClick={alfDes}>Alfabetico Descendente</button>
       <button onClick={ratingAsc}>Rating Ascendente</button>
-      <button onClick={ratingDes}>Rating Descendente</button>                  
+      <button onClick={ratingDes}>Rating Descendente</button>
+      <button onClick={creado}>Creado</button>
+      <button onClick={noCreado}>No creado</button>
+      <FiltroGenre setGenre={setGenre}/>
+      <SearchBar busqueda={busqueda}/>
       <Videogames videogamesMostrados={videogamesActuales} loading={loading}/>
       <Paginado videogamesPorPagina={videogamesPorPagina} videogamesTotales={videogames.length} paginado={paginado}/>
     </div>           

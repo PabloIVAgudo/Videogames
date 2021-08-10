@@ -10,10 +10,7 @@ function NavigationBar() {
             </span>            
             <span className="navigationLink">
                 <NavLink to="/createVideogame" >Create videogame</NavLink>
-            </span>
-            <span>
-                <NavLink to="/searchByName"> Barra de busqueda </NavLink>
-            </span>                    
+            </span>                   
         </div>
     )
 }

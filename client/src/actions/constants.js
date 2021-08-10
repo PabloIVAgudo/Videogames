@@ -1,2 +1,3 @@
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_VIDEOGAME_BY_NAME = "GET_VIDEOGAME_BY_NAME";
+export const GET_GENRES = "GET_GENRES";
