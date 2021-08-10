@@ -22,7 +22,7 @@ router.get('/:id' , async (req,res) => {
                 rating: detailsVideogame.data.rating,
                 platforms: detailsVideogame.data.platforms.map(e => e.platform.name).join(','),
                 image: detailsVideogame.data.background_image,
-                genres: e.genres.map(g => {return {name: g.name, id: g.id}})
+                genres: detailsVideogame.data.genres.map(g => g.name).join(',')
             };                        
         }else{
             detailsVideogame = await Videogame.findByPk(id,{include: Genre});
@@ -33,10 +33,10 @@ router.get('/:id' , async (req,res) => {
                 rating: detailsVideogame.rating,
                 platforms: detailsVideogame.platforms,
                 image: detailsVideogame.image,
-                genres: e.genres.map(g => {return {name: g.name, id: g.id}})
+                genres: detailsVideogame.genres.map(g => g.name).join(',')
             };
         }
-        return res.json(nuevaListaDetalle);
+        return res.status(200).send(nuevaListaDetalle);
     }catch(e){
         return res.status(404).send(e);
     }
