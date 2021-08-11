@@ -26,7 +26,7 @@ function VideogameDetail(){
                 <img src={videogameById.image} alt="Image does not exist"/>
                 <p>Name: {videogameById.name}</p>
                 <p>Genres: {videogameById.genres}</p>
-                <p>Description: {videogameById.description.split('<br />').join(' ').split('<p>').join('').split('</p>').join('').split('<br/>').join(' ').split('<strong>').join(' ').split('</strong>').join(' ')}</p>
+                <p>Description: {videogameById.description.split('<br />').join(' ').split('<p>').join('').split('</p>').join('').split('<br/>').join(' ').split('<strong>').join(' ').split('</strong>').join(' ').split('<ul>').join(' ').split('</ul>').join(' ').split('<li>').join(' ').split('</li>').join(' ')}</p>
                 <p>Release date: {videogameById.releaseDate}</p>
                 <p>Rating: {videogameById.rating}</p> 
                 <p>Platforms: {videogameById.platforms}</p>               

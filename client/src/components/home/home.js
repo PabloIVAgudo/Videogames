@@ -2,11 +2,10 @@ import './home.css';
 import NavigationBar from '../navigationBar/navigationBar';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
-import {getVideogames} from '../../actions/index';
+import {getVideogames, getGenres} from '../../actions/index';
 import Videogames from './posts/videogames';
 import Paginado from './Paginado/paginadoHome';
 import SearchBar from '../searchBar/searchBar';
-import FiltroGenre from './filtroGenre/filtroGenre';
 
 function Home() {
   //Para el paginado 
@@ -16,10 +15,12 @@ function Home() {
   
   const dispatch = useDispatch();
   const videogames = useSelector(e => e.videogames);
+  const genres = useSelector(e => e.genres);
   
   //Primera vez que carga
   useEffect(() => {    
-    dispatch(getVideogames()); 
+    dispatch(getVideogames());
+    dispatch(getGenres());
     setLoading(false);      
   }, [])  
 
@@ -32,70 +33,70 @@ function Home() {
     setLoading(false);
   },[videogames])
   
-  function alfAsc () {
+  function ordAlphabet (op){
     var aux = [...videogames];
-    aux.sort((a,b) => {
-      if(a.name > b.name){
-        return 1;
-      } else{
-        return -1;
-      }
-    })  
-    setOrden([...aux]);
+    if (op === "Ascendent"){
+      aux.sort((a,b) => {
+        if(a.name > b.name){
+          return 1;
+        } else{
+          return -1;
+        }
+      })  
+      return setOrden([...aux]);
+    }
+    if (op === "Descendent"){
+      aux.sort((a,b) => {
+        if(a.name > b.name){
+          return -1;
+        } else{
+          return 1;
+        }
+      })  
+      return setOrden([...aux]);
+    }
   }
 
-  function alfDes () {
+  function ordRating (op){
     var aux = [...videogames];
-    aux.sort((a,b) => {
-      if(a.name > b.name){
-        return -1;
-      } else{
-        return 1;
-      }
-    })  
-    setOrden([...aux]);
-  }
+    if(op === "Ascendent"){
+      aux.sort((a,b) => {
+        if(a.rating > b.rating){
+          return 1;
+        } else{
+          return -1;
+        }
+      })  
+      return setOrden([...aux]);
+    }
+    if(op === "Descendent"){
+      aux.sort((a,b) => {
+        if(a.rating > b.rating){
+          return -1;
+        } else{
+          return 1;
+        }
+      })  
+      return setOrden([...aux]);
+    }
+  } 
 
-  function ratingAsc () {
+  function filterCreated (op){
     var aux = [...videogames];
-    aux.sort((a,b) => {
-      if(a.rating > b.rating){
-        return 1;
-      } else{
-        return -1;
-      }
-    })  
-    setOrden([...aux]);
-  }
+    if(op === "Created"){
+      aux = aux.filter(e => e.id.toString().length > 10);
+      return setOrden([...aux]);
+    }
+    if(op === "NoCreated"){
+      aux = aux.filter(e => e.id.toString().length < 10);
+      return setOrden([...aux]);
+    }
+  }  
 
-  function ratingDes () {
-    var aux = [...videogames];
-    aux.sort((a,b) => {
-      if(a.rating > b.rating){
-        return -1;
-      } else{
-        return 1;
-      }
-    })  
-    setOrden([...aux]);
-  }
-
-  function creado (){
-    var aux = [...videogames];
-    aux = aux.filter(e => e.id.toString().length > 10);
-    setOrden([...aux]);
-  }
-
-  function noCreado (){
-    var aux = [...videogames];
-    aux = aux.filter(e => e.id.toString().length < 10);
-    setOrden([...aux]);
-  }
-
-  function setGenre (genreId) {
+  function setGenre (genreName) {
     var aux = [...videogames];
     aux = aux.filter(e => {
-      if(e.genres.map(s => s.id).includes(genreId)){
+      if(e.genres.map(s => s.name).includes(genreName)){
         return true;
       } else {
         return false;
@@ -103,7 +104,7 @@ function Home() {
     });      
     setOrden([...aux]);
   } 
-  
+
   const indiceUltimoDePagina = paginaActual * videogamesPorPagina;
   const indicePrimeroDePagina = indiceUltimoDePagina - videogamesPorPagina;
   const videogamesActuales = orden.slice(indicePrimeroDePagina, indiceUltimoDePagina);
@@ -115,14 +116,26 @@ function Home() {
   return (
     <div>
       <NavigationBar />
-      <button onClick={alfAsc}>Alfabetico Ascendente</button>
-      <button onClick={alfDes}>Alfabetico Descendente</button>
-      <button onClick={ratingAsc}>Rating Ascendente</button>
-      <button onClick={ratingDes}>Rating Descendente</button>
-      <button onClick={creado}>Creado</button>
-      <button onClick={noCreado}>No creado</button>
-      <button onClick={e => dispatch(getVideogames())}>Volver a cargar</button>
-      <FiltroGenre setGenre={setGenre}/>
+      <div><button onClick={() => dispatch(getVideogames())}>Show all videogames</button></div>      
+      <select onChange={e => ordAlphabet(e.target.value)}>
+        <option>Alphabetical order...</option>
+        <option value="Ascendent">A - Z</option>
+        <option value="Descendent">Z - A</option>
+      </select>
+      <select onChange={e => ordRating(e.target.value)}>
+        <option>Rating...</option>
+        <option value="Ascendent">Menor a mayor</option>
+        <option value="Descendent">Mayor a menor</option>
+      </select>
+      <select onChange={e => filterCreated(e.target.value)}>
+        <option>Select...</option>
+        <option value="Created">Created</option>
+        <option value="NoCreated">No created</option>
+      </select>      
+      <select onChange={ev => setGenre(ev.target.value)}>
+        <option>Genre...</option>
+        {genres?.map(e =><option value={e.name}>{e.name}</option>)}
+      </select>
       <SearchBar />
       <Videogames videogamesMostrados={videogamesActuales} loading={loading}/>
       <Paginado videogamesPorPagina={videogamesPorPagina} videogamesTotales={orden.length} paginado={paginado}/>
