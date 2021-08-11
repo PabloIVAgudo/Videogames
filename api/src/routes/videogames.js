@@ -10,7 +10,7 @@ router.get('' , async (req,res) => {
     const {name} = req.query;    
     if(!name){
         try{
-            const apiVideogameGet1 =  axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=1`);
+            const apiVideogameGet1 = axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=1`);
             const apiVideogameGet2 = axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=2`);
             const apiVideogameGet3 = axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=3`);
             const apiVideogameGet4 = axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=4`);
