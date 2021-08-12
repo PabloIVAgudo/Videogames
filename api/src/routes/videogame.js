@@ -20,9 +20,9 @@ router.get('/:id' , async (req,res) => {
                 description: detailsVideogame.data.description,
                 releaseDate: detailsVideogame.data.released,
                 rating: detailsVideogame.data.rating,
-                platforms: detailsVideogame.data.platforms.map(e => e.platform.name).join(','),
+                platforms: !detailsVideogame.data.platforms.length ? "Not defined" : detailsVideogame.data.platforms.map(e => e.platform.name).join(','),
                 image: detailsVideogame.data.background_image,
-                genres: detailsVideogame.data.genres.map(g => g.name).join(',')
+                genres: !detailsVideogame.data.genres.length ? "Not defined" : detailsVideogame.data.genres.map(g => g.name).join(',')
             };                        
         }else{
             detailsVideogame = await Videogame.findByPk(id,{include: Genre});
@@ -44,16 +44,22 @@ router.get('/:id' , async (req,res) => {
 
 //Debe ingresar nombre,descripcion,fecha de lanzamiento,rating.
 //Se debe poder seleccionar/agregar varios generos,plataformas
-//en este caso debo agregar platforms (posible array) como string (¿Lo convierto en 1 string en el front antes de pasarlo o acá?)
-//si genres me viene como array de id, entonces solo debo pasarlo directo a bulkCreate(Esto es lo que hago al fin de cuentas)
 router.post('' , async (req,res) => {
     var {name, description, releaseDate, rating, platforms, genres} = req.body;
     var image = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gnome-joystick.svg/1024px-Gnome-joystick.svg.png";
     platforms = platforms.join(',');
     // Con solo enviarles el genres con los id de los genres que quiero agregar, sería todo.
     try{
-        var createdVideogame = await Videogame.create({name, description, releaseDate, rating, platforms, image});              
-        var resultVideogame= await createdVideogame.addGenres(genres);        
+        var createdVideogame = await Videogame.create({name, description, releaseDate, rating, platforms, image}); 
+        //Transformo genres que son strings de name en numeros de id
+        var genresPromise = genres.map(e => {
+            var gen = Genre.findOne({where:{name: e}});
+            return gen;
+        })
+        var genresResults = await Promise.all(genresPromise);
+        var genresId = genresResults.map(e => e.id);
+        //Una vez con array de id, creo la relación entre ambas tablas
+        var resultVideogame= await createdVideogame.addGenres(genresId);
         return res.json(resultVideogame);
     }catch(e){
         return res.status(404).send(e);

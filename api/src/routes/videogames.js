@@ -52,7 +52,7 @@ router.get('' , async (req,res) => {
             //Hacer el paginado de 15 resultados
             //Traigo y normalizo lo que encuentro en la DB con ese nombre
             var searchVideogameDB = await Videogame.findAll({where: {name: name} , include: Genre});
-            searchVideogameDB =  searchVideogameDB.map(e =>{            
+            searchVideogameDB =  searchVideogameDB.map(e =>{ 
                 return {
                     image: e.image,
                     name: e.name,
