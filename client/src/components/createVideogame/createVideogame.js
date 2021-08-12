@@ -10,7 +10,7 @@ function CreateVideogame(){
         name: "",
         description: "",
         releaseDate: "",
-        rating: 0,
+        rating: 0.00,
         platforms: [],
         genres: []
     });
@@ -40,7 +40,7 @@ function CreateVideogame(){
     }
 
     async function handleSubmit(e){
-        e.preventDefault();
+        e.preventDefault();      
         await axios.post("http://localhost:3001/videogame", videogame);
         alert("Se agregó el videogame a la DB.");
     }
@@ -72,9 +72,11 @@ function CreateVideogame(){
                 <div>
                     <label htmlFor="">releaseDate</label>
                     <input
-                    type="text"
+                    type="date"
                     name="releaseDate"
                     autoComplete= "off"
+                    min="1952-01-01"
+                    max="2025-12-12"
                     value={videogame.releaseDate}
                     onChange={inputChange}
                     />
@@ -85,6 +87,9 @@ function CreateVideogame(){
                     type="number"
                     name="rating"
                     autoComplete= "off"
+                    step="0.01"
+                    min="0.00"
+                    max="5.00"
                     value={videogame.rating}
                     onChange={inputChange}
                     />

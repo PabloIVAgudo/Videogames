@@ -4,10 +4,12 @@ module.exports = (sequelize) => {
   sequelize.define('genre', {
     id:{
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      allowNull: false
     },
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     }
   });
 };

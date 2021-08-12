@@ -17,10 +17,18 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     releaseDate:{
-      type:DataTypes.STRING
+      type:DataTypes.DATEONLY,
+      allowNull: true,
+      validate:{
+        isDate: true
+      }
     },
     rating:{
-      type: DataTypes.FLOAT
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      validate: {
+        isFloat: true
+      }
     },
     platforms:{
       type: DataTypes.STRING,
@@ -28,6 +36,6 @@ module.exports = (sequelize) => {
     },
     image:{
       type: DataTypes.STRING
-    }
+    }      
   });
 };
