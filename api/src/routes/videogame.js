@@ -20,9 +20,9 @@ router.get('/:id' , async (req,res) => {
                 description: detailsVideogame.data.description,
                 releaseDate: detailsVideogame.data.released,
                 rating: detailsVideogame.data.rating,
-                platforms: !detailsVideogame.data.platforms.length ? "Not defined" : detailsVideogame.data.platforms.map(e => e.platform.name).join(','),
+                platforms: !detailsVideogame.data.platforms.length ? "Not defined" : detailsVideogame.data.platforms.map(e => e.platform.name).join(', '),
                 image: detailsVideogame.data.background_image,
-                genres: !detailsVideogame.data.genres.length ? "Not defined" : detailsVideogame.data.genres.map(g => g.name).join(',')
+                genres: !detailsVideogame.data.genres.length ? "Not defined" : detailsVideogame.data.genres.map(g => g.name).join(', ')
             };                        
         }else{
             detailsVideogame = await Videogame.findByPk(id,{include: Genre});
@@ -33,7 +33,7 @@ router.get('/:id' , async (req,res) => {
                 rating: detailsVideogame.rating,
                 platforms: detailsVideogame.platforms,
                 image: detailsVideogame.image,
-                genres: detailsVideogame.genres.map(g => g.name).join(',')
+                genres: detailsVideogame.genres.map(g => g.name).join(', ')
             };
         }
         return res.status(200).send(nuevaListaDetalle);

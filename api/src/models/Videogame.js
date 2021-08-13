@@ -10,11 +10,17 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        is: /^[^{}<>#$%&~^`/*+]*$/g
+      }
     },
     description:{
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        is: /^[^{}#$&~^`*+]*$/g
+      }
     },
     releaseDate:{
       type:DataTypes.DATEONLY,
@@ -32,7 +38,10 @@ module.exports = (sequelize) => {
     },
     platforms:{
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        is: /^[^{}<>#$%&~^`/*+]*$/g
+      }
     },
     image:{
       type: DataTypes.STRING

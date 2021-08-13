@@ -1,11 +1,11 @@
-import './pageInicio.css';
+import s from './pageInicio.module.css';
 import {Link} from 'react-router-dom';
 
 function PageInicio() {
   return (
-    <div className="PageInicio">
+    <div className={s.landingPage}>
         <Link to="/home">
-            <button>Ir a home</button>
+            <img className={s.botonToHome} src="https://i.ibb.co/MScgNwQ/start-Button.png"/>
         </Link>
     </div>
   );

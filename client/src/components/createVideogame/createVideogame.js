@@ -47,7 +47,7 @@ function CreateVideogame(){
     
     useEffect(() => {
         dispatch(getGenres())
-    },[])
+    },[dispatch])
 
     function inputChange(e){
         setVideogame({
@@ -76,10 +76,40 @@ function CreateVideogame(){
         setVideogame({...videogame, genres: videogame.genres.filter(f => e !== f)});
     }
 
+    function borrarInput () {
+        setVideogame({
+            name: "",
+            description: "",
+            releaseDate: "",
+            rating: 0.00,
+            platforms: [],
+            genres: []
+        });
+    }
+
     async function handleSubmit(e){
-        e.preventDefault();      
-        await axios.post("http://localhost:3001/videogame", videogame);
-        alert("Se agregó el videogame a la DB.");
+        e.preventDefault();
+        if(videogame.name === "" || videogame.description === "" || videogame.releaseDate === "" || videogame.platforms.length === 0 || videogame.genres.length === 0){
+            if(videogame.name === ""){
+                return alert("Name field should not be empty.")
+            }
+            if(videogame.description === ""){
+                return alert("Description field should not be empty.")
+            }
+            if(videogame.releaseDate === ""){
+                return alert("Should select a release date.")
+            }
+            if(videogame.platforms.length === 0){
+                return alert("Should add at least one platform.")
+            }
+            if(videogame.genres.length === 0){
+                return alert("Should add at least one genre.")
+            }
+        }
+        else{
+            await axios.post("http://localhost:3001/videogame", videogame);
+            return alert("The videogame was added to DB successfully!");
+        }
     }
 
     return (
@@ -87,7 +117,7 @@ function CreateVideogame(){
             <NavigationBar/>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="">name</label>
+                    <label htmlFor="">Name: </label>
                     <input
                     type="text"
                     name="name"
@@ -98,7 +128,7 @@ function CreateVideogame(){
                     {error?.name && (<span className="Warning">{error.name}</span>)}
                 </div>
                 <div>
-                    <label htmlFor="">description</label>
+                    <label htmlFor="">Description: </label>
                     <input
                     type="text"
                     name="description"
@@ -109,7 +139,7 @@ function CreateVideogame(){
                     {error?.description && (<span className="Warning">{error.description}</span>)}
                 </div>
                 <div>
-                    <label htmlFor="">releaseDate</label>
+                    <label htmlFor="">Release date: </label>
                     <input
                     type="date"
                     name="releaseDate"
@@ -121,7 +151,7 @@ function CreateVideogame(){
                     />
                 </div>
                 <div>
-                    <label htmlFor="">rating</label>
+                    <label htmlFor="">Rating: </label>
                     <input
                     type="number"
                     name="rating"
@@ -134,7 +164,7 @@ function CreateVideogame(){
                     />
                     {error?.rating && (<span className="Warning">{error.rating}</span>)}
                 </div>
-                <div>Add platforms
+                <div><span>Add platforms: </span> 
                     <select onChange={e => addPlatform(e.target.value)}>
                     {plataformasDisponibles.map(e =>(
                                 <option value={e}>{e}</option>
@@ -143,7 +173,7 @@ function CreateVideogame(){
                     </select>
                     <div>{videogame.platforms.map(e => <span className="seudoBoton">{e}<button className="botonDelete" onClick={() => deletePlatform(e)}>X</button></span>)}</div>
                 </div>
-                <div>Add genres
+                <div><span>Add genres: </span>
                     <select onChange={e => addGenre(e.target.value)}>
                     {genres.map(e =>(
                                 <option value={e.name}>{e.name}</option>
@@ -151,8 +181,9 @@ function CreateVideogame(){
                     )}
                     </select>
                     <div>{videogame.genres.map(e => <span className="seudoBoton">{e}<button className="botonDelete" onClick={() => deleteGenre(e)}>X</button></span>)}</div>
-                </div>                
-                <input type="submit" value="Create videogame"/>
+                </div>
+                <p><button onClick={() => borrarInput()}>Delete inputs</button></p>              
+                <input type="submit" value="Create videogame"/>                
             </form>            
         </div>
     )

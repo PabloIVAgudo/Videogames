@@ -13,6 +13,9 @@ function SearchBar (){
     
     function handleSearch(event) {        
         event.preventDefault();
+        if(name === ""){
+            return alert("Search field should not be empty");
+        }
         dispatch(getVideogameByName(name));                   
         setName("");
     }

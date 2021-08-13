@@ -5,11 +5,17 @@ module.exports = (sequelize) => {
     id:{
       type: DataTypes.INTEGER,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isInteger: true        
+      }
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        is: /^[^{}<>#$%&~^`/*+]*$/g
+      }
     }
   });
 };

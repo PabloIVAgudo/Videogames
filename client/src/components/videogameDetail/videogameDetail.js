@@ -17,13 +17,13 @@ function VideogameDetail(){
     useEffect(() => {
         getVideogameById(id);
         setLoading(false);
-    },[])
+    },[id])
 
     return (
         <div>
             <NavigationBar />            
             {loading ? <p>Loading...</p> : videogameById?.genres && <div>
-                <img src={videogameById.image} alt="Image does not exist"/>
+                <img src={videogameById.image} alt="Iamge does not exist"/>
                 <p>Name: {videogameById.name}</p>
                 <p>Genres: {videogameById.genres}</p>
                 <p>Description: {videogameById.description.replace(/(<([^>]+)>)/ig, '')}</p>

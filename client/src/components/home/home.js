@@ -20,9 +20,8 @@ function Home() {
   //Primera vez que carga
   useEffect(() => {    
     dispatch(getVideogames());
-    dispatch(getGenres());
-    setLoading(false);      
-  }, [])  
+    dispatch(getGenres());      
+  }, [dispatch])  
 
   //Para el orden 
   const [orden, setOrden] = useState([]);
@@ -35,6 +34,7 @@ function Home() {
   
   function ordAlphabet (op){
     var aux = [...videogames];
+    setLoading(true);
     if (op === "Ascendent"){
       aux.sort((a,b) => {
         if(a.name > b.name){
@@ -42,7 +42,8 @@ function Home() {
         } else{
           return -1;
         }
-      })  
+      })
+      setLoading(false);  
       return setOrden([...aux]);
     }
     if (op === "Descendent"){
@@ -52,13 +53,15 @@ function Home() {
         } else{
           return 1;
         }
-      })  
+      })
+      setLoading(false);  
       return setOrden([...aux]);
     }
   }
 
   function ordRating (op){
     var aux = [...videogames];
+    setLoading(true);
     if(op === "Ascendent"){
       aux.sort((a,b) => {
         if(a.rating > b.rating){
@@ -66,7 +69,8 @@ function Home() {
         } else{
           return -1;
         }
-      })  
+      })
+      setLoading(false);  
       return setOrden([...aux]);
     }
     if(op === "Descendent"){
@@ -77,31 +81,37 @@ function Home() {
           return 1;
         }
       })  
+      setLoading(false);
       return setOrden([...aux]);
     }
   } 
 
   function filterCreated (op){
     var aux = [...videogames];
+    setLoading(true);
     if(op === "Created"){
       aux = aux.filter(e => e.id.toString().length > 10);
+      setLoading(false);
       return setOrden([...aux]);
     }
     if(op === "NoCreated"){
       aux = aux.filter(e => e.id.toString().length < 10);
+      setLoading(false);
       return setOrden([...aux]);
     }
   }  
 
   function setGenre (genreName) {
     var aux = [...videogames];
+    setLoading(true);
     aux = aux.filter(e => {
       if(e.genres.map(s => s.name).includes(genreName)){
         return true;
       } else {
         return false;
       }
-    });      
+    }); 
+    setLoading(false);         
     setOrden([...aux]);
   } 
 
@@ -111,12 +121,17 @@ function Home() {
 
   function paginado (numeroDePagina) {
     setPaginaActual(numeroDePagina);
-  } 
+  }
+  
+  function showAll (){
+    setLoading(true); 
+    dispatch(getVideogames());
+  }
   
   return (
     <div>
       <NavigationBar />
-      <div><button onClick={() => dispatch(getVideogames())}>Show all videogames</button></div>      
+      <div><button onClick={() => showAll()}>Show all videogames</button></div>      
       <select onChange={e => ordAlphabet(e.target.value)}>
         <option>Alphabetical order...</option>
         <option value="Ascendent">A - Z</option>
@@ -124,8 +139,8 @@ function Home() {
       </select>
       <select onChange={e => ordRating(e.target.value)}>
         <option>Rating...</option>
-        <option value="Ascendent">Menor a mayor</option>
-        <option value="Descendent">Mayor a menor</option>
+        <option value="Ascendent">0 - 5</option>
+        <option value="Descendent">5 - 0</option>
       </select>
       <select onChange={e => filterCreated(e.target.value)}>
         <option>Select...</option>
@@ -134,7 +149,7 @@ function Home() {
       </select>      
       <select onChange={ev => setGenre(ev.target.value)}>
         <option>Genre...</option>
-        {genres?.map(e =><option value={e.name}>{e.name}</option>)}
+        {genres?.map(e =><option key={e.id} value={e.name}>{e.name}</option>)}
       </select>
       <SearchBar />
       <Videogames videogamesMostrados={videogamesActuales} loading={loading}/>
