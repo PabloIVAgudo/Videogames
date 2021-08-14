@@ -1,4 +1,4 @@
-import './home.css';
+import s from './home.module.css';
 import NavigationBar from '../navigationBar/navigationBar';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';

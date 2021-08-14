@@ -1,4 +1,4 @@
-import './videogames.css';
+import s from './videogames.module.css';
 import {Link} from 'react-router-dom';
 
 function Videogames ({videogamesMostrados, loading}) {
@@ -6,16 +6,15 @@ function Videogames ({videogamesMostrados, loading}) {
         return <h2>Loading...</h2>
     }
     return (
-        <div className="tablaVideogames">
+        <div className={s.tablaVideogames}>
             {videogamesMostrados.map(e => (
-                <span className="unVideogame" key={e.id}>
-                    <img className="tamañoImagen" src={e.image} alt="Image does not exist"/>
-                    <p>{e.name}</p>
-                    <p>{e.genres.map(g => g.name).join(', ')}</p>
-                    <Link to={`/videogameDetail/${e?.id}`}>
-                        <button>Detalles</button>
-                    </Link>
-                </span>
+                <Link className={s.link} to={`/videogameDetail/${e?.id}`}>
+                    <span className={s.unVideogame} key={e.id}>
+                        <img className={s.tamañoImagen} src={e.image} alt="Image does not exist"/>
+                        <p className={s.name}>{e.name}</p>
+                        <p className={s.genres}>{e.genres.map(g => g.name).join(', ')}</p>
+                    </span>
+                </Link>
             ))}
         </div>
     )
