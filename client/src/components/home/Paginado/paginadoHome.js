@@ -1,4 +1,4 @@
-import './paginadoHome.css';
+import s from './paginadoHome.module.css';
 import {Link} from 'react-router-dom';
 
 function Paginado ({videogamesPorPagina, videogamesTotales, paginado}) {
@@ -7,7 +7,7 @@ function Paginado ({videogamesPorPagina, videogamesTotales, paginado}) {
         numeroDePaginas.push(i);
     }
     return (
-        <div>
+        <div className={s.paginado}>
             {numeroDePaginas.map(e => (
                 <span key={e}>
                     <Link to="/home">
