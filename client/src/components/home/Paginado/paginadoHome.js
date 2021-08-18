@@ -11,7 +11,7 @@ function Paginado ({videogamesPorPagina, videogamesTotales, paginado}) {
             {numeroDePaginas.map(e => (
                 <span key={e}>
                     <Link to="/home">
-                        <button onClick={() => paginado(e)}>{e}</button>
+                        <button className={s.boton} onClick={() => paginado(e)}>{e}</button>
                     </Link>
                 </span>
             ))}

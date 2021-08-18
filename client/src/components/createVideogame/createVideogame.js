@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import NavigationBar from '../navigationBar/navigationBar';
 import {getGenres} from '../../actions/index';
 
-function validate (input){
+export function validate (input){
     let error={};
     if(!input.name){
         error.name = "Name required";
@@ -31,7 +31,7 @@ function validate (input){
     return error;
 }
 
-function CreateVideogame(){
+export function CreateVideogame(){
     const [videogame, setVideogame] = useState({
         name: "",
         description: "",

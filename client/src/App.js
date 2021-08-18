@@ -1,4 +1,4 @@
-import './App.css';
+import s from './App.module.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Home from './components/home/home';
 import PageInicio from './components/pageInicio/pageInicio';
@@ -6,7 +6,7 @@ import VideogameDetail from './components/videogameDetail/videogameDetail';
 import CreateVideogame from './components/createVideogame/createVideogame';
 import ErrorRoute from './components/errorRoute/errorRoute';
 
-function App() {
+export function App() {
 
   return (
     <BrowserRouter>      

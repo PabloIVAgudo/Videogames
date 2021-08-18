@@ -1,4 +1,4 @@
-import './searchBar.css';
+import s from './searchBar.module.css';
 import {useDispatch} from 'react-redux';
 import {useState} from 'react';
 import {getVideogameByName} from '../../actions/index';
@@ -21,20 +21,24 @@ function SearchBar (){
     }
 
     return (
-        <div>
-            <form onSubmit={handleSearch}>
-                <label htmlFor="searchByName"/>
-                <input
-                    type="text"
-                    id="searchByName"
-                    autoComplete= "off"
-                    value={name}
-                    placeholder="Enter name..."
-                    onChange={(e) => handleChangeSearch(e)}
-                />                
-                <button type="submit">SEARCH</button>         
-            </form>       
+        <div className={s.bodySearch}>
+            <div className={s.searchbar}>
+                <form onSubmit={handleSearch}>
+                    <label htmlFor="searchByName"/>
+                    <input
+                        className={s.inputSearch}
+                        type="text"
+                        id="searchByName"
+                        autoComplete= "off"
+                        value={name}
+                        placeholder=" Enter name..."
+                        onChange={(e) => handleChangeSearch(e)}
+                    />                
+                    <button className={s.botonSubmit} type="submit">Search</button>         
+                </form>       
+            </div>
         </div>
+        
     )
 }
 
