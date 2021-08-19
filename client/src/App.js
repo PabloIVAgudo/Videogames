@@ -14,13 +14,13 @@ export function App() {
         <Route exact path="/">
           <PageInicio />
         </Route>
-        <Route path="/home">
+        <Route exact path="/home">
           <Home />
         </Route>
-        <Route path="/videogameDetail/:id">
+        <Route exact path="/videogameDetail/:id">
           <VideogameDetail />
         </Route>
-        <Route path="/createVideogame">
+        <Route exact path="/createVideogame">
           <CreateVideogame />
         </Route>
         <Route>

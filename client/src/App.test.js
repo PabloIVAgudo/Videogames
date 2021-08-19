@@ -22,16 +22,15 @@ describe('App', () => {
     store = mockStore([]);
   });
 
-  describe('El componente PageInicio debe renderizar como landing page.', () => {
-    it('Debería renderizarse en la ruta "/"', () => {
-      const wrapper = mount(
-          <Provider store={store}>
-            <MemoryRouter initialEntries={[ '/' ]}>
-              <App />
-            </MemoryRouter>
-          </Provider>
-      );
-        expect(wrapper.find(PageInicio)).toHaveLength(1);
-    });
-  });  
+  it('El componente PageInicio debe renderizar en la ruta /', () => {
+    const wrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={[ '/' ]}>
+            <App />
+          </MemoryRouter>
+        </Provider>
+    );
+      expect(wrapper.find(PageInicio)).toHaveLength(1);
+  });
+    
 });

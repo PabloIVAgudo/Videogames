@@ -25,6 +25,7 @@
     transition: transform 0.25s;
     cursor: pointer;
 }
+
 option:hover{
     background: rgb(41, 41, 41);
 }

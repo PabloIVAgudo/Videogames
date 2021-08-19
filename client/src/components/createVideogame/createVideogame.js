@@ -1,4 +1,4 @@
-import './createVideogame.css';
+import s from './createVideogame.module.css';
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -8,24 +8,24 @@ import {getGenres} from '../../actions/index';
 export function validate (input){
     let error={};
     if(!input.name){
-        error.name = "Name required";
+        error.name = "*Name required";
     }else if(/[{}<>#$%&~^`/*+]/g.test(input.name)){
-        error.name = "Name is invalid";
+        error.name = " *Name is invalid";
     }
     if(!input.description){
-        error.description = "Description required";
+        error.description = "*Description required";
     }else if(/[{}<>#$&~^`/*+]/g.test(input.description)){
-        error.description = "Description is invalid";
+        error.description = "*Description is invalid";
     }
     if(!input.rating){
-        error.rating = "Rating required";
+        error.rating = "*Rating required";
     }else if(!/\d+.\d+/.test(input.rating)){
-        error.rating = "Rating is invalid. Should add two digits of the fractional part";
+        error.rating = "*Rating is invalid. Should add two digits of the fractional part";
         if(input.rating > 5.00){
-            error.rating = "Rating is invalid. Rating must be below 5.00";
+            error.rating = "*Rating is invalid. Rating must be below 5.00";
         }
         if(input.rating < 0.00){
-            error.rating = "Rating is invalid. Rating must be above 0.00";
+            error.rating = "*Rating is invalid. Rating must be above 0.00";
         }
     }
     return error;
@@ -113,78 +113,104 @@ export function CreateVideogame(){
     }
 
     return (
-        <div>
+        <div className={s.pageCompleta}>
             <NavigationBar/>
+            <div className={s.pageAbajo}>
+            <div className={s.formularioContainer}>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="">Name: </label>
-                    <input
-                    type="text"
-                    name="name"
-                    autoComplete= "off"
-                    value={videogame.name}
-                    onChange={inputChange}
-                    />
-                    {error?.name && (<span className="Warning">{error.name}</span>)}
+                <div className={s.nameContainer}>
+                    <label htmlFor="">Name</label>
+                    <div>
+                        <input
+                        className={s.inputName}
+                        type="text"
+                        name="name"
+                        autoComplete= "off"
+                        value={videogame.name}
+                        onChange={inputChange}
+                        />                            
+                    </div>
+                    {error?.name && (<span className={s.warning}>{error.name}</span>)}
                 </div>
-                <div>
-                    <label htmlFor="">Description: </label>
-                    <input
-                    type="text"
-                    name="description"
-                    autoComplete= "off"
-                    value={videogame.description}
-                    onChange={inputChange}
-                    />
-                    {error?.description && (<span className="Warning">{error.description}</span>)}
+                <div className={s.descriptionContainer}>
+                    <label htmlFor="">Description</label>
+                    <div>
+                        <input
+                        className={s.inputDescription}
+                        type="text"
+                        name="description"
+                        autoComplete= "off"
+                        value={videogame.description}
+                        onChange={inputChange}
+                        /> 
+                    </div>                    
+                    {error?.description && (<span className={s.warning}>{error.description}</span>)}
                 </div>
-                <div>
-                    <label htmlFor="">Release date: </label>
-                    <input
-                    type="date"
-                    name="releaseDate"
-                    autoComplete= "off"
-                    min="1952-01-01"
-                    max="2021-12-31"
-                    value={videogame.releaseDate}
-                    onChange={inputChange}
-                    />
+                <div className={s.releaseDateContainer}>
+                    <label htmlFor="">Release date</label>
+                    <div>
+                        <input
+                        className={s.inputReleaseDate}
+                        type="date"
+                        name="releaseDate"
+                        autoComplete= "off"
+                        min="1952-01-01"
+                        max="2021-12-31"
+                        value={videogame.releaseDate}
+                        onChange={inputChange}
+                        /> 
+                    </div>                    
                 </div>
-                <div>
-                    <label htmlFor="">Rating: </label>
-                    <input
-                    type="number"
-                    name="rating"
-                    autoComplete= "off"
-                    step="0.01"
-                    min="0.00"
-                    max="5.00"
-                    value={videogame.rating}
-                    onChange={inputChange}
-                    />
-                    {error?.rating && (<span className="Warning">{error.rating}</span>)}
+                <div className={s.ratingContainer}>
+                    <label htmlFor="">Rating</label>
+                    <div>
+                        <input
+                        className={s.inputRating}
+                        type="number"
+                        name="rating"
+                        autoComplete= "off"
+                        step="0.01"
+                        min="0.00"
+                        max="5.00"
+                        value={videogame.rating}
+                        onChange={inputChange}
+                        />
+                    </div>                    
+                    {error?.rating && (<span className={s.warning}>{error.rating}</span>)}
                 </div>
-                <div><span>Add platforms: </span> 
+                <div className={s.platformsContainer}>
+                    <label>Add platforms: </label> 
                     <select onChange={e => addPlatform(e.target.value)}>
                     {plataformasDisponibles.map(e =>(
                                 <option value={e}>{e}</option>
                         )
                     )}
                     </select>
-                    <div>{videogame.platforms.map(e => <span className="seudoBoton">{e}<button className="botonDelete" onClick={() => deletePlatform(e)}>X</button></span>)}</div>
+                    <div className={s.joinedBar}>
+                        {videogame.platforms.map(e => <span className={s.seudoBoton}>{e} <button className={s.botonDelete} onClick={() => deletePlatform(e)}>X</button></span>)}
+                    </div>
                 </div>
-                <div><span>Add genres: </span>
+                <div className={s.platformsContainer}>
+                    <label>Add genres: </label>
                     <select onChange={e => addGenre(e.target.value)}>
                     {genres.map(e =>(
                                 <option value={e.name}>{e.name}</option>
                         )
                     )}
                     </select>
-                    <div>{videogame.genres.map(e => <span className="seudoBoton">{e}<button className="botonDelete" onClick={() => deleteGenre(e)}>X</button></span>)}</div>
+                    <div className={s.joinedBar}>
+                        {videogame.genres.map(e => <span className={s.seudoBoton}>{e} <button className={s.botonDelete} onClick={() => deleteGenre(e)}>X</button></span>)}
+                    </div>
                 </div>
-                <p><button onClick={() => borrarInput()}>Delete inputs</button></p>              
-                <input type="submit" value="Create videogame"/>                
-            </form>            
+                <div className={s.botonContainer}>
+                    <button className={s.boton} onClick={() => borrarInput()}>Clear inputs</button>
+                </div>
+                <div className={s.botonContainer}>
+                    <input className={s.boton} type="submit" value="Create videogame"/>
+                </div>          
+            </form>
+            </div>
+            </div>                        
         </div>
     )
 }

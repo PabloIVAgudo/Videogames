@@ -1,5 +1,6 @@
-import './videogameDetail.css';
+import s from './videogameDetail.module.css';
 import NavigationBar from '../navigationBar/navigationBar';
+import Loader from "react-loader-spinner";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import {useParams } from 'react-router-dom';
@@ -20,18 +21,19 @@ function VideogameDetail(){
     },[id])
 
     return (
-        <div>
+        <div className={s.totalScreen}>
             <NavigationBar />            
-            {loading ? <p>Loading...</p> : videogameById?.genres && <div>
-                <img src={videogameById.image} alt="Iamge does not exist"/>
-                <p>Name: {videogameById.name}</p>
-                <p>Genres: {videogameById.genres}</p>
-                <p>Description: {videogameById.description.replace(/(<([^>]+)>)/ig, '')}</p>
-                <p>Release date: {videogameById.releaseDate}</p>
-                <p>Rating: {videogameById.rating}</p> 
-                <p>Platforms: {videogameById.platforms}</p>               
-            </div>}               
-        </div>
+            {loading ? <div className={s.loader}><Loader type="Circles" color="#fafafa" height={100} width={100}/></div> : 
+                videogameById?.genres && <div className={s.container}><div className={s.tarjetaEntera}>
+                <img className={s.imagen} src={videogameById.image} alt="Image does not exist"/>
+                <p>Name: <span>{videogameById.name}</span></p>
+                <p>Genres: <span>{videogameById.genres}</span></p>
+                <p>Description: <span>{videogameById.description.replace(/(<([^>]+)>)/ig, '')}</span></p>
+                <p>Release date: <span>{videogameById.releaseDate}</span></p>
+                <p>Rating: <span>{videogameById.rating} / 5 </span></p> 
+                <p>Platforms: <span>{videogameById.platforms}</span></p>               
+            </div></div>}               
+        </div>       
     )
 }
 

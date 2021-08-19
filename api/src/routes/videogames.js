@@ -57,7 +57,8 @@ router.get('' , async (req,res) => {
                     image: e.image,
                     name: e.name,
                     genres: e.genres.map(g => {return {name: g.name, id: g.id}}),
-                    id: e.id
+                    id: e.id,
+                    rating: e.rating
                 }
             });
             //Busco y normalizo lo que encuentre en la API con ese nombre         
@@ -67,7 +68,8 @@ router.get('' , async (req,res) => {
                     image: e.background_image,
                     name: e.name,                                                
                     genres: e.genres.map(g => {return {name: g.name, id: g.id}}),
-                    id: e.id
+                    id: e.id,
+                    rating: e.rating
                 }
             });
             var searchVideogame = [];
