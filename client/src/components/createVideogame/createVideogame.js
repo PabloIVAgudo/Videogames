@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import NavigationBar from '../navigationBar/navigationBar';
 import {getGenres} from '../../actions/index';
 
-export function validate (input){
+function validate (input){
     let error={};
     if(!input.name){
         error.name = "*Name required";
@@ -31,7 +31,7 @@ export function validate (input){
     return error;
 }
 
-export function CreateVideogame(){
+function CreateVideogame(){
     const [videogame, setVideogame] = useState({
         name: "",
         description: "",
@@ -181,8 +181,8 @@ export function CreateVideogame(){
                 <div className={s.platformsContainer}>
                     <label>Add platforms: </label> 
                     <select onChange={e => addPlatform(e.target.value)}>
-                    {plataformasDisponibles.map(e =>(
-                                <option value={e}>{e}</option>
+                    {plataformasDisponibles.map((e,i) =>(
+                                <option key={i} value={e}>{e}</option>
                         )
                     )}
                     </select>

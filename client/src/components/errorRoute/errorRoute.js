@@ -1,9 +1,9 @@
-import './errorRoute.css';
+import s from './errorRoute.module.css';
 
 function ErrorRoute () {
     return (
         <div>
-            Esta ruta no existe
+            This route does not exist.
         </div>
     );
 }
