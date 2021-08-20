@@ -3,7 +3,6 @@ import { configure, mount } from 'enzyme';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-import configureStore from "redux-mock-store";
 import CreateVideogame from './createVideogame';
 import store from '../../store/index';
 
@@ -27,7 +26,6 @@ describe('<CreateVideogame />',() => {
     })
 
     it('Renderiza un label con el texto igual a "Name"', () => {
-      // El orden en el que se encuentran los Labels es importante.
       expect(wrapper.find('label').at(0).text()).toEqual('Name');
     })
 
@@ -36,7 +34,6 @@ describe('<CreateVideogame />',() => {
     })
 
     it('Renderiza un label con el texto igual a "Description"', () => {
-      // El orden en el que se encuentran los Labels es importante.
       expect(wrapper.find('label').at(1).text()).toEqual('Description');
     })
 
@@ -45,7 +42,6 @@ describe('<CreateVideogame />',() => {
     })
 
     it('Renderiza un label con el texto igual a "Release date"', () => {
-      // El orden en el que se encuentran los Labels es importante.
       expect(wrapper.find('label').at(2).text()).toEqual('Release date');
     })
 
@@ -54,7 +50,6 @@ describe('<CreateVideogame />',() => {
     })
 
     it('Renderiza un label con el texto igual a "Rating"', () => {
-      // El orden en el que se encuentran los Labels es importante.
       expect(wrapper.find('label').at(3).text()).toEqual('Rating');
     })
 
@@ -63,12 +58,10 @@ describe('<CreateVideogame />',() => {
     })   
     
     it('Renderiza un label con el texto igual a "Add platforms: "', () => {
-        // El orden en el que se encuentran los Labels es importante.
         expect(wrapper.find('label').at(4).text()).toEqual('Add platforms: ');
     })
 
     it('Renderiza un label con el texto igual a "Add genres: "', () => {
-        // El orden en el que se encuentran los Labels es importante.
         expect(wrapper.find('label').at(5).text()).toEqual('Add genres: ');
     })
 

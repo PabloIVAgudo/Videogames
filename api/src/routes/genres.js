@@ -9,7 +9,6 @@ const {YOUR_API_KEY} = process.env;
 router.get('' , async (req,res) => {
     try{
         //Con esto me aseguro de verificar la existencia de una DB de genres con el valor del id de un genre
-        //Busco que el id exista en los que tengo en DB (arreglar esto cuando tenga regrese la API)
         var promesaPrueba= await Genre.findByPk(83);         
         //Este primer if es para el caso que no exista ese id, crea la DB
         if(!promesaPrueba){ 
