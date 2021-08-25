@@ -83,7 +83,7 @@ router.get('' , async (req,res) => {
             }
             //Si no existen juegos con ese nombre, tiro el mensaje de error
             if(searchVideogame.length===0){
-                return res.status(404).send("No se encuentra ningún videojuego con el nombre buscado.");
+                return res.status(404).json([]);
             }            
             return res.json(searchVideogame);
         }catch(e){
