@@ -6,6 +6,9 @@ function Videogames ({videogamesMostrados, loading, opcion}) {
     if(loading){
         return <div className={s.loader}><Loader type="Circles" color="#fafafa" height={100} width={100}/></div>
     }
+    if(videogamesMostrados[0] === "No match"){
+        return <div><h1 className={s.opcion}>There's no videogame with that name.</h1></div>
+    }
     return (
         <div>
             {opcion.length === 0 ? 

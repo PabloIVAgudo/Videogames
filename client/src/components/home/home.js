@@ -44,7 +44,8 @@ function Home() {
           return -1;
         }
       })
-      setLoading(false);  
+      setLoading(false);
+      setPaginaActual(1);  
       return setOrden([...aux]);
     }
     if (op === "Descendent"){
@@ -55,7 +56,8 @@ function Home() {
           return 1;
         }
       })
-      setLoading(false);  
+      setLoading(false); 
+      setPaginaActual(1);  
       return setOrden([...aux]);
     }
   }
@@ -71,7 +73,8 @@ function Home() {
           return -1;
         }
       })
-      setLoading(false);  
+      setLoading(false);
+      setPaginaActual(1);   
       return setOrden([...aux]);
     }
     if(op === "Descendent"){
@@ -83,6 +86,7 @@ function Home() {
         }
       })  
       setLoading(false);
+      setPaginaActual(1); 
       return setOrden([...aux]);
     }
   } 
@@ -94,18 +98,21 @@ function Home() {
       setOpcion("")
       dispatch(getVideogames());
       setLoading(false);
+      setPaginaActual(1); 
       return setOrden([...aux]);
     }
     if(op === "Created"){
       setOpcion(op);
       aux = aux.filter(e => e.id.toString().length > 10);
       setLoading(false);
+      setPaginaActual(1); 
       return setOrden([...aux]);
     }
     if(op === "NoCreated"){
       setOpcion("No created");
       aux = aux.filter(e => e.id.toString().length < 10);
       setLoading(false);
+      setPaginaActual(1); 
       return setOrden([...aux]);
     }
   }  
@@ -114,8 +121,9 @@ function Home() {
     var aux = [...videogames];
     setLoading(true);
     if(genreName==="All"){
-      setOpcion("")
-      dispatch(getVideogames())      
+      setOpcion("");
+      setPaginaActual(1); 
+      dispatch(getVideogames());     
     }
     else{
       setOpcion(genreName);
@@ -127,7 +135,8 @@ function Home() {
         }
       }); 
     }    
-    setLoading(false);         
+    setLoading(false);
+    setPaginaActual(1);          
     setOrden([...aux]);
   } 
 
@@ -167,7 +176,7 @@ function Home() {
         </select>
       </div>            
       <Videogames videogamesMostrados={videogamesActuales} loading={loading} opcion={opcion}/>
-      <Paginado videogamesPorPagina={videogamesPorPagina} videogamesTotales={orden.length} paginado={paginado}/>
+      <Paginado videogamesPorPagina={videogamesPorPagina} videogamesTotales={orden} paginado={paginado}/>
     </div>           
   );
 }
